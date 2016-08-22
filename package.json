@@ -1,0 +1,22 @@
+{
+  "name": "template_project",
+  "version": "1.0.0",
+  "description": "template to start new projects",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "template",
+    "webdev",
+    "html",
+    "css",
+    "javascript",
+    "jquery"
+  ],
+  "author": "Angela Johnson",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp-connect": "^4.0.0"
+  }
+}

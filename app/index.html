@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- css section -->
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="./css/styles.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/css-toggle-switch/latest/toggle-switch-px.css" />
+
+  <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
+  <!--external javascript libraries-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment-with-locales.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simon Game</title>
+</head>
+
+<body>
+  <div id="gameTitle">SIMON</div>
+  <div id="simonContainer">
+    <div class="flexcontainerColumns">
+      <div class="flexcontainerRows">
+        <div id="greenPad" class="green circle"></div>
+        <div id="redPad" class="red circle"></div>
+      </div>
+      <div class="flexcontainerRows">
+        <div id="bluePad" class="blue circle"></div>
+        <div id="yellowPad" class="yellow circle"></div>
+      </div>
+    </div>
+
+    <div class="middleCircle">
+      <div id="gameOptions">
+        <div id="count" class="centeredRow">Count</div>
+        <div class="centeredRow">
+          <div id="countWindow"></div>
+        </div>
+        <div id="gameControlButtons">
+          <div id="start">
+            <h6 id="startButtonLabel">Start</h6>
+            <button id="startButton" class="btn"></button>
+          </div>
+          <div id="strict">
+            <h6 id="strictButtonLabel">Strict</h6>
+            <button id="strictButton" class="btn"></button>
+          </div>
+          <div class="led-box">
+            <div id="led" class="led-clear"></div>
+          </div>
+        </div>
+        <div id="powerSwitch">
+         <div id="off">
+            <span>OFF</span>
+          </div>
+          <div id="on-off-mark"><span id="mark-toggle"></span></div>
+          <div id="on">
+            <span>ON</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="./js/main.js"></script>
+
+</html>
