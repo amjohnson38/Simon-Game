@@ -2,10 +2,6 @@ var gameSequence = [];
 var gameSequenceCounter = 0;
 var playerResponses = 0;
 var playerResponsesCount = 0;
-var greenPadSound = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound1.mp3");
-var redPadSound = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound2.mp3");
-var bluePadSound = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound3.mp3");
-var yellowPadSound = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound4.mp3");
 var strictMode = false;
 var levelCount = 0;
 var roundsToWin = 20;
@@ -13,15 +9,17 @@ var powerState = "off";
 var gameState = "notPlaying"; //game is either notPlaying, playing, lost or won
 var turnState = "computer"; //whose turn it is
 var colors = ["greenPad", "redPad", "bluePad", "yellowPad"];
-var lightUpDuration = [2000, 2000, 2000, 2000
-  , 1750, 1750, 1750, 1750
-  , 1500, 1500, 1500, 1500
-  , 1250, 1250, 1250, 1250
-  , 1000, 1000, 1000, 1000];
+var lightUpDuration = 1800;
+var lightUpStep = 75;
 var lightGap = 75;
-var lightGapDecrementor = 3;
-$(function () {
+var lightGapStep = 3;
+var yellowPadSound;
+var greenPadSound;
+var redPadSound;
+var bluePadSound;
 
+$(function () {
+  loadSounds();
   $("#powerSwitch").on("click", function () {
     if (powerState === "off") {
       $("#mark-toggle").animate({
@@ -41,6 +39,7 @@ $(function () {
       $("#led").removeClass("led-red");
       $("#led").addClass("led-clear");
       powerState = "off";
+      gameReset();
     }
 
   });
@@ -59,13 +58,9 @@ $(function () {
   });
 
   $("#strictButton").on("click", function () {
-    if (powerState === "on") {
-      strictPlay();
-    }
-
+    strictPlay();
   });
 
-  init();
 });
 
 
@@ -99,44 +94,18 @@ function computerPlays() {
 
     var color = chooseRandomColor();
     gameSequence.push(color);
+    lightUpDuration = lightUpDuration - lightUpStep;
+    lightGap = lightGap - lightGapStep;
 
     for (var i = 0; i < gameSequence.length; i++) {
       var currentColor = gameSequence[i];
 
-      setTimeout(lightUpPad.bind(null, gameSequence[i]), lightUpDuration[levelCount - 1] * i);
-
-      if (gameSequence[i] === "yellowPad") {
-        yellowPadSound.play();
-      }
-      else if (gameSequence[i] === "greenPad") {
-        greenPadSound.play();
-      }
-      else if (gameSequence[i] === "redPad") {
-        redPadSound.play();
-      }
-      else if (gameSequence[i] === "bluePad") {
-        bluePadSound.play();
-      }
-
-      /*switch(gameSequence[i]){
-        case "greenPad":
-        greenPadSound.play();
-        break;
-        case "redPad":
-        redPadSound.play();
-        break;
-        case "yellowPad":
-        yellowPadSound.play();
-        break;
-        case "bluePad":
-        bluePadSound.play();
-      }*/
-
-      setTimeout(darkenGamePad.bind(null, gameSequence[i]), 
-        lightUpDuration[levelCount - 1] * (i + 1) - (lightGap-levelCount*lightGapDecrementor));
+      setTimeout(lightUpPad.bind(null, gameSequence[i]), lightUpDuration * i);
+      setTimeout(darkenGamePad.bind(null, gameSequence[i]),
+        lightUpDuration * (i + 1) - lightGap);
     }
     setTimeout(computerPlays,
-      (gameSequence.length * lightUpDuration[levelCount - 1]));
+      (gameSequence.length * lightUpDuration));
     levelCount++;
   }
 
@@ -155,12 +124,36 @@ function playerPlays() {
 function lightUpPad(color) {
   console.log("lightUpPad " + color);
   $("#" + color).addClass(color + "Animate");
+  if (color === "yellowPad") {
+    yellowPadSound = context.createBufferSource();
+    yellowPadSound.buffer = bufferList[3];
+    yellowPadSound.connect(context.destination);
+    yellowPadSound.start(0);
+  }
+  else if (color === "greenPad") {
+    greenPadSound = context.createBufferSource();
+    greenPadSound.buffer = bufferList[0];
+    greenPadSound.connect(context.destination);
+    greenPadSound.start(0);
+  }
+  else if (color === "redPad") {
+    redPadSound = context.createBufferSource();
+    redPadSound.buffer = bufferList[1];
+    redPadSound.connect(context.destination);
+    redPadSound.start(0);
+  }
+  else if (color === "bluePad") {
+    bluePadSound = context.createBufferSource();
+    bluePadSound.buffer = bufferList[2];
+    bluePadSound.connect(context.destination);
+    bluePadSound.start(0);
+  }
 }
 
 
 function strictPlay() {
 
-  if (powerOn === "on") {
+  if (powerState === "on") {
     if (strictMode === true) {
       $("#led").addClass("led-red");
     }
@@ -176,7 +169,32 @@ function gameReset() {
   gameSequenceCounter = 0,
     playerResponses = [];
   playerResponsesCount = 0;
-  levelCount = 0
+  levelCount = 0;
+  gameState = "notPlaying";
+  turnState = "computer";
 
 };
+var context;
+var bufferLoader;
+var bufferList;
+
+function loadSounds() {
+  window.AudioContext = window.AudioContext || window.webkitAudioContext;
+  context = new AudioContext();
+  bufferLoader = new BufferLoader(
+    context,
+    ["http://res.cloudinary.com/angiemjohnson/video/upload/v1471888207/simonSound1_ajce3m.mp3",
+      "http://res.cloudinary.com/angiemjohnson/video/upload/v1471888220/simonSound2_khpatu.mp3",
+      "http://res.cloudinary.com/angiemjohnson/video/upload/v1471888236/simonSound3_gmfhys.mp3",
+      "http://res.cloudinary.com/angiemjohnson/video/upload/v1471888253/simonSound4_wqvp1p.mp3"
+    ],
+    finishedLoading
+  );
+  bufferLoader.load();
+}
+function finishedLoading(bList) {
+  bufferList = bList;
+  init();
+}
+
 
