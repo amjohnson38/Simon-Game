@@ -24,59 +24,34 @@ body {
 	width: 300px;
 }
 
-.green {
-	background:#008000;
-	border-top-left-radius: 100%;
-	border-bottom-right-radius: 25%;
-	border: solid black;
-	border-width: 2em 1em 1em 2em;
-	-webkit-box-shadow: 3px 3px 146px -8px rgba(0, 0, 0, 0.75);
-	-moz-box-shadow: 3px 3px 146px -8px rgba(0, 0, 0, 0.75);
-	box-shadow: 3px 3px 146px -8px rgba(0, 0, 0, 0.75);
-	cursor: pointer;
-}
 
-.green:active {
-	background:#00FF00;
 
-}
 
-.greenPadAnimate {
-	animation: greenkeyframe 2s;
 
-}
 
-@keyframes greenkeyframe{
-	0%,85% {background:#008000;}
-	15% {background:#00FF00;}
-	
-}
 
 .red {
 	background: #B90000;
 	border-top-right-radius: 100%;
 	border-bottom-left-radius: 25%;
 	border: solid black;
-	border-width: 2em 2em 1em 1em;
+	border-width: 1.5em 1.5em .75em .75em;
 	-webkit-box-shadow: 3px 3px 146px -8px rgba(0, 0, 0, 0.75);
 	-moz-box-shadow: 3px 3px 146px -8px rgba(0, 0, 0, 0.75);
 	box-shadow: 3px 3px 146px -8px rgba(0, 0, 0, 0.75);
 	cursor: pointer;
 }
-/*.red:active {
-	background:#FF5050;
 
-}*/
-
-.redPadAnimate {
-	animation: redkeyframe 2s;
-
-}
-
-@keyframes redkeyframe{
-	0%,85% {background:#B90000;}
-	15% {background:#FF5050;}
-	
+.green {
+	background:#008000;
+	border-top-left-radius: 100%;
+	border-bottom-right-radius: 25%;
+	border: solid black;
+	border-width: 1.5em .75em .75em 1.5em;
+	-webkit-box-shadow: 3px 3px 146px -8px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 3px 3px 146px -8px rgba(0, 0, 0, 0.75);
+	box-shadow: 3px 3px 146px -8px rgba(0, 0, 0, 0.75);
+	cursor: pointer;
 }
 
 .blue {
@@ -84,28 +59,11 @@ body {
 	border-bottom-left-radius: 100%;
 	border-top-right-radius: 25%;
 	border: solid black;
-	border-width: 1em 1em 2em 2em;
+	border-width: .75em .75em 1.5em 1.5em;
 	-webkit-box-shadow: 3px 3px 146px -8px rgba(0, 0, 0, 0.75);
 	-moz-box-shadow: 3px 3px 146px -8px rgba(0, 0, 0, 0.75);
 	box-shadow: 3px 3px 146px -8px rgba(0, 0, 0, 0.75);
 	cursor: pointer;
-}
-
-/*.blue:active {
-	background:#1E90FF;
-
-}*/
-
-
-.bluePadAnimate {
-	animation: bluekeyframe 2s;
-
-}
-
-@keyframes bluekeyframe{
-	0%,85% {background:blue;}
-	15% {background:#1E90FF;}
-	
 }
 
 .yellow {
@@ -113,26 +71,102 @@ body {
 	border-bottom-right-radius: 100%;
 	border-top-left-radius: 25%;
 	border: solid black;
-	border-width: 1em 2em 2em 1em;
+	border-width: .75em 1.5em 1.5em .75em;
 	-webkit-box-shadow: 3px 3px 146px -8px rgba(0, 0, 0, 0.75);
 	-moz-box-shadow: 3px 3px 146px -8px rgba(0, 0, 0, 0.75);
 	box-shadow: 3px 3px 146px -8px rgba(0, 0, 0, 0.75);
 	cursor: pointer;
 }
 
-/*.yellow:active {
+.redPadTurnOn {
+	animation: redkeyframe 0.1s;
+	animation-fill-mode: forwards;
+}
+.greenPadTurnOn{
+	animation: greenkeyframe 0.1s;
+	animation-fill-mode: forwards;
+}
+.bluePadTurnOn {
+	animation: bluekeyframe .1s;
+	animation-fill-mode: forwards;
+}
+.yellowPadTurnOn {
+	animation: yellowkeyframe 0.1s;
+	animation-fill-mode: forwards;
+}
+
+@keyframes redkeyframe{
+	0% {background:#B90000;
+		border-width: 1.5em 1.5em .75em .75em;}
+	100%{background:#FF5050;
+		border-width: 1em 1em .5em .5em;}	
+}
+@keyframes greenkeyframe{
+	0% {background:#008000;
+		border-width: 1.5em .75em .75em 1.5em;}
+	100%{background:#00FF00;
+		border-width: 1em 0.5em 0.5em 1em;}	
+}
+@keyframes bluekeyframe{
+	0% {background:blue;
+		border-width:.75em .75em 1.5em 1.5em;}
+	100%{background:#1E90FF;
+		border-width: 0.5em 0.5em 1em 1em;}
 	
-	background:#FFFF00;
-
-}*/
-.yellowPadAnimate {
-	animation: yellowkeyframe 2s;
 }
-
 @keyframes yellowkeyframe{
-	0%,85% {background:#F3B521;}
-	15% {background:#FFFF00;}	
+	0% {background:#F3B521;
+		border-width:.75em 1.5em 1.5em .75em;}
+	100%{background:#FFFF00;
+		border-width: 0.5em 1em 1em .5em;}
 }
+.redPadTurnOff {
+	animation: redturnoffkeyframe 0.005s;
+	animation-fill-mode: forwards;
+}
+
+.greenPadTurnOff{
+	animation: greenturnoffkeyframe 0.005s;
+	animation-fill-mode: forwards;
+}
+.bluePadTurnOff {
+	animation: blueturnoffkeyframe 0.005s;
+	animation-fill-mode: forwards;	
+}
+.yellowPadTurnOff {
+	animation: yellowturnoffkeyframe 0.005s;
+	animation-fill-mode: forwards;	
+}
+
+@keyframes redturnoffkeyframe{
+	0% {background:#FF5050;
+		border-width: 1em 1em 0.5em 0.5em;}
+	100% {background:#B90000;
+		border-width: 1.5em 1.5em .75em .75em;}	
+}
+@keyframes greenturnoffkeyframe{
+	0% {background:#00FF00;
+		border-width: 1em 0.5em 0.5em 1em;}
+	100% {background:#008000;
+		border-width: 1.5em .75em .75em 1.5em;}	
+}
+@keyframes blueturnoffkeyframe{
+	0% {background:#1E90FF;
+		border-width: 0.5em 0.5em 1em 1em;}
+	100% {background:blue;
+		border-width:.75em .75em 1.5em 1.5em;}
+}
+@keyframes yellowturnoffkeyframe{
+	0% {background:#FFFF00;
+		border-width: 0.5em 1em 1em 0.5em;}
+	100% {background:#F3B521;
+		border-width:.75em 1.5em 1.5em .75em;}	
+}
+
+
+
+
+
 
 .middleCircle {
 	position: absolute;

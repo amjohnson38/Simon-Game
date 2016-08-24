@@ -17,6 +17,10 @@ var yellowPadSound;
 var greenPadSound;
 var redPadSound;
 var bluePadSound;
+var setTimeOutLightUp;
+var setTimeOutDarken;
+var timeOutArray = [];
+/*Loads the sounds need for the game, makes the power switch, buttons and game pads functional*/
 
 $(function () {
   loadSounds();
@@ -29,6 +33,7 @@ $(function () {
       $("#led").addClass("led-green");
       $("#led").removeClass("led-clear");
       powerState = "on";
+
     }
     else if (powerState === "on") {
       $("#mark-toggle").animate({
@@ -40,12 +45,19 @@ $(function () {
       $("#led").addClass("led-clear");
       powerState = "off";
       gameReset();
+      //clears the setTimeouts for both lightUpPad and darkenGamePad
+      for (var i = 0; i < timeOutArray.length; i++) {
+        clearTimeout(timeOutArray[i]);
+      }
+      for (var i = 0; i < colors.length; i++) {
+        darkenGamePad(colors[i]);
+      }
+
     }
 
   });
 
   $(".circle").on("click", function () {
-
 
   });
 
@@ -63,16 +75,15 @@ $(function () {
 
 });
 
-
+//chooses a random color out of the 4 colors
 function chooseRandomColor() {
   var randomNumber = Math.floor(Math.random() * 4);
-  console.log(randomNumber);
+  /*console.log(randomNumber);*/
   var randomColor = colors[randomNumber];
-
-  console.log(randomColor);
+  /*console.log(randomColor);*/
   return randomColor;
 }
-
+//initializes the game upon starting
 function init() {
   levelCount = 1;
   gameSequenceCounter = 0;
@@ -81,28 +92,32 @@ function init() {
   gameState = "notPlaying";
   turnState = "computer";
 }
-
+//the computer's sequences
 function computerPlays() {
   if (levelCount > 20) {
     gameState = "playerWon";
     return;
   }
+  //the computer plays it's portion of the round
   if (gameState === "playing") {
-    console.log("*** starting Round ***");
+    /*console.log("*** starting Round ***");*/
     turnState = "computer";
     $("#countWindow").html(levelCount);
-
-    var color = chooseRandomColor();
-    gameSequence.push(color);
-    lightUpDuration = lightUpDuration - lightUpStep;
-    lightGap = lightGap - lightGapStep;
-
+//this happens each round
+    var color = chooseRandomColor();//the random color that has been choosen
+    gameSequence.push(color);//the color is pushed into the game sequence array
+    lightUpDuration = lightUpDuration - lightUpStep;//the length of time the pad stays illuminated
+    lightGap = lightGap - lightGapStep;//the time between a light turning off and the next light turning on
+    timeOutArray = [];//emptying of the timeOutArray
+//the gameSequence array is looped through and the current color to be animated is selected.
     for (var i = 0; i < gameSequence.length; i++) {
       var currentColor = gameSequence[i];
 
-      setTimeout(lightUpPad.bind(null, gameSequence[i]), lightUpDuration * i);
-      setTimeout(darkenGamePad.bind(null, gameSequence[i]),
+      var setTimeOutLightUp = setTimeout(lightUpPad.bind(null, gameSequence[i]), lightUpDuration * i);
+      var setTimeOutDarken = setTimeout(darkenGamePad.bind(null, gameSequence[i]),
         lightUpDuration * (i + 1) - lightGap);
+      timeOutArray.push(setTimeOutLightUp, setTimeOutDarken);
+      console.log(timeOutArray);
     }
     setTimeout(computerPlays,
       (gameSequence.length * lightUpDuration));
@@ -110,25 +125,29 @@ function computerPlays() {
   }
 
 }
-
+//darkens the game pad after the lightUpPad function has done it's job
 function darkenGamePad(color) {
   //console.log("darkenGamePad " + color);
-
-  $("#" + color).removeClass(color + "Animate");
+  $("#" + color).removeClass(color + "TurnOn");
+  $("#" + color).addClass(color + "TurnOff");
 }
 
 function playerPlays() {
 
 
 }
+/*the game pad are animated to change the color to a lighter color and the border is shrunk. 
+Also the sound is retrieved and played for the corresponding game pad*/
+
 function lightUpPad(color) {
-  console.log("lightUpPad " + color);
-  $("#" + color).addClass(color + "Animate");
+  /*console.log("lightUpPad " + color);*/
+  $("#" + color).removeClass(color + "TurnOff");
+  $("#" + color).addClass(color + "TurnOn");
   if (color === "yellowPad") {
-    yellowPadSound = context.createBufferSource();
-    yellowPadSound.buffer = bufferList[3];
-    yellowPadSound.connect(context.destination);
-    yellowPadSound.start(0);
+    yellowPadSound = context.createBufferSource();//creates a sound source
+    yellowPadSound.buffer = bufferList[3]; //tells the source which sound to play
+    yellowPadSound.connect(context.destination);//connects the sound to the speakers
+    yellowPadSound.start(0);//plays the source innediately. (time)=equals the amount of time before the source is played
   }
   else if (color === "greenPad") {
     greenPadSound = context.createBufferSource();
@@ -148,22 +167,24 @@ function lightUpPad(color) {
     bluePadSound.connect(context.destination);
     bluePadSound.start(0);
   }
+
 }
 
 
 function strictPlay() {
 
   if (powerState === "on") {
-    if (strictMode === true) {
-      $("#led").addClass("led-red");
-    }
-    else {
-      $("#led").removeClass("led-red");
-      $("#led").addClass("led-clear");
-    }
+    strictMode === true;
+    $("#led").toggleClass("led-red");
+  }
+  else {
+    strictMode === false;
+    $("#led").removeClass("led-red");
+    $("#led").addClass("led-clear");
   }
 }
 
+//resets the game to it's original settings
 function gameReset() {
   gameSequence = [];
   gameSequenceCounter = 0,
@@ -172,14 +193,19 @@ function gameReset() {
   levelCount = 0;
   gameState = "notPlaying";
   turnState = "computer";
+  darkenGamePad();
+  lightUpDuration = 1800;
+  lightGap = 75;
 
 };
+//Using a bufferLoader class through web audio api to create, load audio buffers
 var context;
 var bufferLoader;
 var bufferList;
 
 function loadSounds() {
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
+  //AudioContext is used for managing and playing all sounds. 
   context = new AudioContext();
   bufferLoader = new BufferLoader(
     context,
@@ -192,9 +218,15 @@ function loadSounds() {
   );
   bufferLoader.load();
 }
+
 function finishedLoading(bList) {
   bufferList = bList;
   init();
+}
+
+function playerWins() {
+
+
 }
 
 
