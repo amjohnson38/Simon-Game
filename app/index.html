@@ -18,50 +18,73 @@
 </head>
 
 <body>
-  <div id="gameTitle">SIMON</div>
-  <div id="simonContainer">
-    <div class="flexcontainerColumns">
-      <div class="flexcontainerRows">
-        <div id="greenPad" class="green circle greenPadTurnOff"></div>
-        <div id="redPad" class="red circle redPadTurnOff"></div>
-      </div>
-      <div class="flexcontainerRows">
-        <div id="bluePad" class="blue circle bluePadTurnOff"></div>
-        <div id="yellowPad" class="yellow circle yellowPadTurnOff"></div>
-      </div>
+  <div id="resetContainer" class="popupContainer">
+    <div id="gameStatementBox" class="loserPopUp">
+      <h3 id="gameStatement"></h3>
     </div>
-
+  </div>
+  <div id="gameTitle">SIMON</div>
+  <div id="centeringFlexBox">
     <div class="middleCircle">
       <div id="gameOptions">
-        <div id="count" class="centeredRow">Count</div>
+        <div id="count" class="centeredRow">Level</div>
         <div class="centeredRow">
-          <div id="countWindow"></div>
+          <div id="countWindow">&nbsp</div>
         </div>
-        <div id="gameControlButtons">
-          <div id="start">
-            <h6 id="startButtonLabel">Start</h6>
+        <div id="gameControlButtons" class="centeredRow">
+          <div id="start" class='gameControlButton'>
+            <div id="startButtonLabel">Start</div>
             <button id="startButton" class="btn"></button>
           </div>
-          <div id="strict">
-            <h6 id="strictButtonLabel">Strict</h6>
-            <button id="strictButton" class="btn"></button>
-          </div>
-          <div class="led-box">
+           <div class="led-box" class='gameControlButton'>
             <div id="led" class="led-clear"></div>
           </div>
+          <div id="strict"  class='gameControlButton'>
+            <div id="strictButtonLabel">Strict</div>
+            <button id="strictButton" class="btn"></button>
+          </div>
+         
         </div>
-        <div id="powerSwitch">
-         <div id="off">
-            <span>OFF</span>
+        <div id="powerSwitch" class="centeredRow">
+          <div id="off">
+            <span>Off</span>
           </div>
           <div id="on-off-mark"><span id="mark-toggle"></span></div>
           <div id="on">
-            <span>ON</span>
+            <span>On</span>
           </div>
         </div>
       </div>
     </div>
+    <div id="simonContainer">
+      <div class="flexContainerColumns">
+        <div class="flexContainerRows">
+          <div id="greenPad" class="green circle greenPadTurnOff"></div>
+          <div id="redPad" class="red circle redPadTurnOff"></div>
+        </div>
+        <div class="flexContainerRows">
+          <div id="bluePad" class="blue circle bluePadTurnOff"></div>
+          <div id="yellowPad" class="yellow circle yellowPadTurnOff"></div>
+        </div>
+      </div>
+
+    </div>
   </div>
+  <footer>
+    <div class="social text-center center-block">
+      <ul>
+        <li><a href="https://www.facebook.com/reggirl38"><i class="fa fa-lg fa-facebook"></i></a></li>
+        <li><a href="http://twitter.com/reggirl32"><i class="fa fa-lg fa-twitter"></i></a></li>
+        <li><a href="https://github.com/amjohnson38"><i class="fa fa-lg fa-github"></i></a></li>
+        <li><a href="https://www.linkedin.com/in/angelamjohnson95"><i class="fa fa-lg fa-linkedin"></i></a></li>
+        <li>
+          <a href="https://www.freecodecamp.com/amjohnson38" target="_blank" title="See my Free Code Camp profile!">
+            <i class="fa fa-fire fa-lg"></i></li>
+        </a>
+      </ul>
+    </div>
+    <p>Created and Coded by Angela Johnson 2016</p>
+  </footer>
 </body>
 <script src="./js/main.js"></script>
 
